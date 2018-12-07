@@ -14,3 +14,5 @@ Remember kids, failure is fun. When something goes wrong, it goes REALLY wrong i
 Explore the galaxy in search of new resources to sell and people to meet. Go anywhere you please so long as you have enough fuel and an engine! Do you want to focus on engineering? Defence and security? Refining? Set up a research lab and hope for the best! Officers can unlock new tech, but they can be a difficult (cantankerous) bunch to appease, and if you let them, they can and will run your station into the ground! Good luck captain.
 
 <img src="https://steamcdn-a.akamaihd.net/steam/apps/900010/extras/chemist.gif?t=1543992839" alt="Meeple Station"/>
+
+# [Wishlist on Steam](https://store.steampowered.com/app/900010/Meeple_Station/) | [Visit our homepage](https://meeplestation.com)
