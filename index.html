@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Meeple Station</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="aliens, space, asteroids, city builder, coop, isometric, pixel, indie, science fiction, simulation, explore, trade, build, survive, sustain, rimworld, dwarf fortress, rts">
+	<meta name="description" content="Build your way to success! Trade your way to the top! Explore your way to infamy! Play alone or with friends, do it your way!">
+	<meta name="theme-color" content="#da532c">
+	<meta property="og:title" content="Meeple Station" />
+	<meta property="og:description" content="Build your way to success! Trade your way to the top! Explore your way to infamy! Play alone or with friends, do it your way!" />
+	<meta property="og:type" content="website" />
+	<meta property="og:image" content="splash.png" />
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:site" content="@VoxGamesAU" />
+	<meta property="twitter:title" content="Meeple Station" />
+	<meta property="twitter:description" content="Build your way to success! Trade your way to the top! Explore your way to infamy! Play alone or with friends, do it your way!" />
+	<meta property="twitter:image" content="splash.png" />
+	<link rel="icon" href="favicon.png" type="image/png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+	<link rel="stylesheet" href="css/table.css">
+	<style>
+	body {
+		background: #040617;
+	}
+
+	.hero {
+		background: transparent !important;
+	}
+
+	.modal img {
+		cursor: pointer;
+	}
+
+	.modal .modal-image,
+	.modal iframe {
+		max-height: calc(100vh - 40px);
+    	max-width: calc(100vw - 40px);
+    	overflow: auto;
+	}
+
+	.modal .modal-content {
+		width: 100% !important;
+		overflow: hidden !important;
+	}
+
+	.container .content {
+		max-width: 800px;
+		margin: 0 auto 3rem;
+	}
+
+	.container .content p {
+		text-align: justify;
+	}
+
+	.tile-screenshot {
+		background: none;
+		padding: 0;
+		border-radius: 0;
+	}
+
+	.tile-trailer:hover .button {
+		transform: translate(-50%,-45%) scale(1.2) !important;
+	}
+
+	.plan-image {
+		display: none;
+	}
+
+	@media screen and (min-width:1280px) {
+		.plan-image {
+			display: block;
+		}
+
+		.plan-image img {
+			max-width: 220px;
+			display: block;
+			margin: 0.5rem auto 0;
+		}
+	}
+
+	@media screen and (min-width:1470px) {
+		.plan-image img {
+			max-width: 280px;
+			display: block;
+			margin: 0.5rem auto 0;
+		}
+	}
+
+	#landing {
+		background: transparent url(bg.png) no-repeat fixed center center / cover !important;
+		image-rendering: pixelated;
+		position: relative;
+		overflow: hidden;
+	}
+
+	#landing img {
+		image-rendering: auto;
+	}
+
+	#landing .hero-head,
+	#landing .hero-foot {
+		position: relative;
+		z-index: 4;
+	}
+
+	#landing .hero-head .level {
+		padding-top: 1.5rem;
+		text-transform: uppercase;
+		font-size: 0.9em;
+		font-weight: bold;
+		text-shadow: 0 0 4px #060d22, 0 0 8px #060d22, 0 0 12px #060d22;
+	}
+
+	@media screen and (min-width:769px) {
+		#landing .hero-head .level-logo {
+			 flex-grow: 0;
+		}
+	}
+
+	#landing .hero-head .level a:hover {
+		text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff, 0 0 12px #ffffff;
+	}
+
+	#landing .hero-head img {
+		max-width: 200px;
+	}
+
+	#landing .hero-body img {
+		 z-index: 2;
+		 top: 50%;
+		 left: 50%;
+		 transform: translate(-50%,-45%);
+		 position: absolute;
+		 max-width: 920px;
+	}
+
+	#landing .hero-foot {
+		padding: 1.5rem 0 1.3rem;
+		background: -moz-linear-gradient(top, transparent 0%, rgba(4,6,23,1) 100%);
+		background: -webkit-linear-gradient(top, transparent 0%,rgba(4,6,23,1) 100%);
+		background: linear-gradient(to bottom, transparent 0%,rgba(4,6,23,1) 100%);
+	}
+
+	#landing .hero-foot p {
+		margin-top: 0.75rem;
+	}
+
+	#landing #stars {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		top: 0;
+		left: 0;
+		z-index: 0;
+
+		background: url(assets/stars.png) no-repeat fixed top center / cover;
+		opacity: 0.2;
+	}
+
+	#landing .ship {
+		z-index: 1;
+		top: -1000px;
+		left: -1000px;
+		position: absolute;
+		width: 287px;
+		height: 210px;
+		background: url(assets/ships.png) no-repeat top left;
+
+		width: 231px;
+		height: 169px;
+		background-size: 300%;
+	}
+
+	#landing .meeple-suit {
+		z-index: 3;
+		top: -1000px;
+		left: -1000px;
+		position: absolute;
+		width: 32px;
+		height: 72px;
+		background: url(assets/meepleSuits.png) no-repeat top left;
+		background-size: 500%;
+	}
+
+	#cleaned {
+		opacity: 0;
+			transition: none;
+	}
+
+	#cleaned.fade {
+		opacity: 1;
+		transition: 4s opacity;
+	}
+
+	#footer {
+		background: transparent;
+		margin-top: 6rem;
+	}
+
+	#footer a:hover {
+		color: #f99125;
+	}
+	</style>
+</head>
+<body>
+	<div class="modal">
+		<div class="modal-background"></div>
+		<div class="modal-container">
+			<div class="modal-content"></div>
+		</div>
+		<button class="modal-close is-large" aria-label="close"></button>
+	</div>
+
+	<section id="landing" class="hero is-fullheight is-dark is-bold">
+		<div class="hero-head">
+			<div class="container">
+				<nav class="level is-mobile">
+					<p class="level-item has-text-centered is-hidden-mobile" style="justify-content: flex-end;">
+						<a href="#about" class="link is-info">About</a>
+					</p>
+					<p class="level-item has-text-centered is-hidden-mobile">
+						<a href="#buy" class="link is-info meeple-served">Buy</a>
+					</p>
+					<p class="level-item level-logo has-text-centered">
+						<a href="#landing"><img src="logo.png" alt="Meeple Station"></a>
+					</p>
+					<p class="level-item has-text-centered is-hidden-mobile">
+						<a href="https://www.indiedb.com/games/meeple-station/presskit/all" class="link is-info" target="_blank">Presskit</a>
+					</p>
+					<p class="level-item has-text-centered is-hidden-mobile" style="justify-content: flex-start;">
+						<a href="https://discord.gg/rem7mhG" class="link is-info" target="_blank">Discord</a>
+					</p>
+				</nav>
+			</div>
+		</div>
+		<div class="hero-body">
+			<img src="assets/station4.png" alt="Meeple Station">
+		</div>
+		<div class="hero-foot has-text-centered">
+			<a href="https://store.steampowered.com/app/900010/Meeple_Station/" class="button is-white is-rounded is-outlined meeple-served" target="_blank">
+				<span class="icon is-hidden-mobile">
+					<svg class="fab fa-steam" aria-label="Steam" style="fill: currentColor;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-steam"></use></svg>
+				</span>
+				<span>Wishlist on Steam</span>
+			</a>
+			<a href="#buy" class="button is-white is-rounded is-outlined meeple-served">
+				<span>Pre-order for beta</span>
+			</a>
+			<!--<p class="is-size-7"><span class="meeples-served">75</span> meeple served</p>-->
+		</div>
+		<div id="stars"></div>
+		<div id="ship" class="ship"></div>
+		<div id="meeple-suit" class="meeple-suit"></div>
+	</section>
+
+	<section id="about" class="hero is-medium is-dark">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<div class="content">
+					<h2 class="title is-size-4-mobile">Build your space station</h1>
+					<p>Have you ever wanted to build your own space station? Trade goods and care for the inhabitants? Explore distant galaxies and take on daring missions while trying to keep your meeple alive! Meeple station is an open-ended space station simulator in the vein of Rimworld that succeeds in doing just that. Live a never ending adventure whilst trying to make the best of your ramshackle station.</p>
+				</div>
+				<div class="tile is-ancestor">
+					<div class="tile is-4 is-vertical is-parent">
+						<div class="tile is-child ship-1">
+							<img src="assets/station1.png" alt="Meeple Station">
+						</div>
+						<div class="tile is-child ship-2">
+							<img src="assets/station3.png" alt="Meeple Station">
+						</div>
+					</div>
+					<div class="tile is-parent">
+						<div class="tile is-child ship-3">
+							<img src="assets/station5.png" alt="Meeple Station">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="hero is-medium is-white" style="background: #fff !important;">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<div class="content">
+					<h2 class="title is-size-4-mobile">Co-op with friends</h1>
+					<p>Play with your friends in cooperative mode. Perhaps you will undertake a campaign, build difficult stations and meet pressing deadlines. Or sit back, relax and let chaos reign supreme, running things at your own pace, moving around the quadrant, exploring nearby planets and being a centre for trade and commerce.</p>
+				</div>
+				<div class="columns">
+					<div class="column meeple-demo">
+						<picture>
+							<source type="video/mp4" srcset="assets/gifs/chemist.mp4" alt="Meeple Station Chemist">
+							<source type="video/webm" srcset="assets/gifs/chemist.webm" alt="Meeple Station Chemist">
+							<img data-src="assets/gifs/chemist.gif" alt="Meeple Station Chemist" width="800" height="156">
+						</picture>
+					</div>
+					<div class="column meeple-demo">
+						<picture>
+							<source type="video/mp4" srcset="assets/gifs/botany.mp4" alt="Meeple Station Botany">
+							<source type="video/webm" srcset="assets/gifs/botany.webm" alt="Meeple Station Botany">
+							<img data-src="assets/gifs/botany.gif" alt="Meeple Station Botany" width="800" height="156">
+						</picture>
+					</div>
+				</div>
+				<br><br><br><br><br>
+				<div class="content">
+					<h2 class="title is-size-4-mobile">Satisfying roguelike gameplay</h1>
+					<p>Meeple Station was birthed from the love of two genres. The complex simulation genre, like Dwarf Fortress and Rimworld and good ol' real-time strategy games, like Age of Empires and Starcraft. We let these genres blend together to create complex but friendly gameplay that leaves you with a strangely satisfying sense of accomplishment, alongside a smooth UI that won’t leave you fumbling around a hundred hot-keys.</p>
+				</div>
+				<div class="columns">
+					<div class="column meeple-demo">
+						<picture>
+							<source type="video/mp4" srcset="assets/gifs/refiners.mp4" alt="Meeple Station Refiners">
+							<source type="video/webm" srcset="assets/gifs/refiners.webm" alt="Meeple Station Refiners">
+							<img data-src="assets/gifs/refiners.gif" alt="Meeple Station Refiners" width="800" height="156">
+						</picture>
+					</div>
+					<div class="column meeple-demo">
+						<picture>
+							<source type="video/mp4" srcset="assets/gifs/miner.mp4" alt="Meeple Station Miner">
+							<source type="video/webm" srcset="assets/gifs/miner.webm" alt="Meeple Station Miner">
+							<img data-src="assets/gifs/miner.gif" alt="Meeple Station Miner" width="800" height="156">
+						</picture>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="hero is-medium is-dark">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<div class="content">
+					<h2 class="title is-size-4-mobile">Trailer &amp; Screenshots</h1>
+				</div>
+				<div class="tile is-ancestor">
+					<div class="tile is-parent">
+						<a href="https://www.youtube.com/watch?v=MIYVsayRSEY" class="tile tile-trailer is-child box" style="background: url(assets/video.jpg) no-repeat center center; background-size: cover; padding: 0; border-radius: 0;" target="_blank">
+							<figure class="image is-16by9">
+								<span class="button is-danger is-large" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+									<span class="icon is-medium" style="padding: 5px;">
+										<svg class="fas fa-play" aria-label="Play" style="fill: currentColor;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-play"></use></svg>
+									</span>
+								</span>
+							</figure>
+						</a>
+					</div>
+					<div class="tile is-3 is-vertical is-parent">
+						<a href="assets/screens/screen1.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen1.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+						<a href="assets/screens/screen2.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen2.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+					<div class="tile is-3 is-vertical is-parent">
+						<a href="assets/screens/screen3.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen3.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+						<a href="assets/screens/screen4.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen4.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+				</div>
+				<div class="tile is-ancestor">
+					<div class="tile is-3 is-parent">
+						<a href="assets/screens/screen5.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen5.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+					<div class="tile is-3 is-parent">
+						<a href="assets/screens/screen6.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen6.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+					<div class="tile is-3 is-parent">
+						<a href="assets/screens/screen7.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen7.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+					<div class="tile is-3 is-parent">
+						<a href="assets/screens/screen8.jpg" class="tile tile-screenshot is-child box">
+							<figure class="image is-16by9">
+								<img src="assets/screens/thumb-screen8.jpg" alt="Meeple Station">
+							</figure>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="buy" class="hero is-medium is-dark">
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<div class="content">
+					<h2 class="title is-size-4-mobile">Pre-order to play the beta</h1>
+					<p>Meeple Station is coming to Steam (PC, Mac &amp; Linux) in 2019, but if that is too far away you can back the creation of this game and start playing now by choosing your supporter tier below and buying from itch.io. You will get a Steam key on release.</p>
+				</div>
+
+				<div class="pricing-table">
+					<div class="pricing-plan">
+						<div class="plan-header plan-image"><img src="assets/backer1.png" alt="Meeple Station"></div>
+						<div class="plan-header">Beta Backer</div>
+						<div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span><span class="price">15</span></span>USD</div>
+						<div class="plan-items">
+							<div class="plan-item">Play the beta</div>
+							<div class="plan-item">Steam key on release</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+						</div>
+						<div class="plan-footer">
+							<a href="https://voxgames.itch.io/meeple-station" class="button is-fullwidth" target="_blank">Buy Now</a>
+						</div>
+					</div>
+
+					<div class="pricing-plan is-primary is-active" data-reward="1820">
+						<div class="plan-header plan-image"><img src="assets/backer2.png" alt="Meeple Station"></div>
+						<div class="plan-header">Big Backer</div>
+						<div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency meeple-served">$</span><span class="price">30</span></span>USD</div>
+						<div class="plan-items">
+							<div class="plan-item">Play the beta</div>
+							<div class="plan-item">Steam key on release</div>
+							<div class="plan-item"><a href="https://store.steampowered.com/app/680360/Regions_Of_Ruin/" target="_blank" title="Our past game! Check it out on Steam">Regions of Ruin Steam key</a></div>
+							<div class="plan-item">OST for both games</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+						</div>
+						<div class="plan-footer">
+							<a href="https://voxgames.itch.io/meeple-station" class="button is-fullwidth meeple-served" target="_blank">Buy Now</a>
+						</div>
+					</div>
+
+					<div class="pricing-plan is-warning" data-reward="1818">
+						<div class="plan-header plan-image"><img src="assets/backer3.png" alt="Meeple Station"></div>
+						<div class="plan-header">Cheat Maker</div>
+						<div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span><span class="price">100</span></span>USD</div>
+						<div class="plan-items">
+							<div class="plan-item">Play the beta</div>
+							<div class="plan-item">Steam key on release</div>
+							<div class="plan-item"><a href="https://store.steampowered.com/app/680360/Regions_Of_Ruin/" target="_blank" title="Our past game! Check it out on Steam">Regions of Ruin Steam key</a></div>
+							<div class="plan-item">OST for both games</div>
+							<div class="plan-item">2 copies to play</div>
+							<div class="plan-item">Create a cheat code</div>
+							<div class="plan-item">-</div>
+							<div class="plan-item">-</div>
+						</div>
+						<div class="plan-footer">
+							<a href="https://voxgames.itch.io/meeple-station" class="button is-fullwidth meeple-served" target="_blank">Buy Now</a>
+						</div>
+					</div>
+
+					<div class="pricing-plan is-danger" data-reward="1819">
+						<div class="plan-header plan-image"><img src="assets/backer4.png" alt="Meeple Station"></div>
+						<div class="plan-header">Interior Designer</div>
+						<div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span><span class="price">250</span></span>USD</div>
+						<div class="plan-items">
+							<div class="plan-item">Play the beta</div>
+							<div class="plan-item">Steam key on release</div>
+							<div class="plan-item"><a href="https://store.steampowered.com/app/680360/Regions_Of_Ruin/" target="_blank" title="Our past game! Check it out on Steam">Regions of Ruin Steam key</a></div>
+							<div class="plan-item">OST for both games</div>
+							<div class="plan-item">2 copies to play</div>
+							<div class="plan-item">Create a cheat code</div>
+							<div class="plan-item">Design an artifact, or</div>
+							<div class="plan-item">Design a piece of station furniture</div>
+						</div>
+						<div class="plan-footer">
+							<a href="https://voxgames.itch.io/meeple-station" class="button is-fullwidth meeple-served" target="_blank">Buy Now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer id="footer" class="footer">
+		<div class="content has-text-centered has-text-white">
+			<p class="meeple-clean" style="position: relative; display: inline;"><img src="assets/gifs/meepleJanitor.gif" style="position: absolute; left: -5px; top: -54px;">&nbsp; &nbsp; &nbsp; meeple were harmed in the making of this site. Find us on <a href="https://store.steampowered.com/app/900010/Meeple_Station/" target="_blank">Steam</a>, <a href="https://www.indiedb.com/games/meeple-station" target="_blank">IndieDB</a>, <a href="https://discord.gg/rem7mhG" target="_blank">Discord</a>, <a href="https://www.facebook.com/Meeplestation/" target="_blank">Facebook</a>, <a href="https://twitter.com/VoxGamesAU" target="_blank">Twitter</a>, <a href="https://www.reddit.com/r/MeepleStation/" target="_blank">Reddit</a> or <a href="mailto:alexpoysky@gmail.com?subject=Meeple%20Station">contact us</a>.</p>
+
+			<div style="position: relative; max-width: 440px; margin: 2rem auto 0; padding: 0 1rem;">
+				<a href="https://www.moddb.com" style="position: absolute; left: 0; top: 0; bottom: 0; width: 40%;" target="_blank" alt="Presented by ModDB"></a>
+				<a href="https://www.indiedb.com" style="position: absolute; left: 40%; top: 0; bottom: 0; width: 38%;" target="_blank" alt="Presented by IndieDB"></a>
+				<a href="#landing" style="position: absolute; left: 78%; top: 0; bottom: 0; width: 22%;" alt="Created by VOX Games"></a>
+				<img src="assets/logos.png" alt="Partners">
+			</div>
+		</div>
+	</footer>
+	<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;"><symbol id="icon-steam" viewBox="0 0 448 512"><path d="M395.5 177.5c0 33.8-27.5 61-61 61-33.8 0-61-27.3-61-61s27.3-61 61-61c33.5 0 61 27.2 61 61zm52.5.2c0 63-51 113.8-113.7 113.8L225 371.3c-4 43-40.5 76.8-84.5 76.8-40.5 0-74.7-28.8-83-67L0 358V250.7L97.2 290c15.1-9.2 32.2-13.3 52-11.5l71-101.7c.5-62.3 51.5-112.8 114-112.8C397 64 448 115 448 177.7zM203 363c0-34.7-27.8-62.5-62.5-62.5-4.5 0-9 .5-13.5 1.5l26 10.5c25.5 10.2 38 39 27.7 64.5-10.2 25.5-39.2 38-64.7 27.5-10.2-4-20.5-8.3-30.7-12.2 10.5 19.7 31.2 33.2 55.2 33.2 34.7 0 62.5-27.8 62.5-62.5zm207.5-185.3c0-42-34.3-76.2-76.2-76.2-42.3 0-76.5 34.2-76.5 76.2 0 42.2 34.3 76.2 76.5 76.2 41.9.1 76.2-33.9 76.2-76.2z"/></symbol><symbol id="icon-play" viewBox="0 0 448 512"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/></symbol></svg>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://static.itch.io/api.js"></script>
+	<script src="https://unpkg.com/scrollreveal"></script>
+	<script>
+	$(document).ready(function() {
+		var randomness = 0;
+
+		shippingTime = function(ship, speed, left, top) {
+			windowWidth = $("#landing").width();
+			windowHeight = $("#landing").height();
+
+			if(!ship) {
+				left = Math.random() >= 0.5;
+				top = Math.random() >= 0.5;
+				speed = Math.ceil(Math.random()*3);
+				ship = $("#landing .ship:eq(0)").clone();
+				shipno = Math.ceil(Math.random()*3)-1;
+				shipWidth = parseInt($("#landing .ship:eq(0)").width())*(1-(speed-1)*.2);
+				shipHeight = parseInt($("#landing .ship:eq(0)").height())*(1-(speed-1)*.2);
+				ship.css("width", shipWidth+"px").css("height", shipHeight+"px");
+				ship.css("background-position", "-"+(shipWidth*shipno)+"px -"+(top && left ? 0 : (top && !left ? 1 : (!top && !left ? 2 : 3))*shipHeight)+"px");
+				ship.insertAfter($("#landing .ship:eq(0)"));
+
+				if(windowWidth > windowHeight) {
+					ship.css("top", (top ? shipHeight*-1 : windowHeight+shipHeight)+"px");
+					ship.css("left", ((left ? 0 : windowWidth)+Math.floor((Math.random()*windowWidth)-windowHeight))+"px");
+				} else {
+					ship.css("top", ((top ? 0 : windowHeight)+Math.floor((Math.random()*windowHeight)-windowWidth))+"px");
+					ship.css("left", (left ? shipWidth*-1 : windowWidth+shipWidth)+"px");
+				}
+			}
+
+			shipLeft = parseFloat(ship.css("left"))+(left ? 2 : -2)*speed;
+			shipTop = parseFloat(ship.css("top"))+(top ? 1 : -1)*speed;
+			done = (left ? shipLeft > windowWidth : (shipLeft+shipWidth) < 0) || (top ? shipTop > windowHeight : (shipTop+shipHeight) < 0);
+
+			if(done) {
+				ship.remove();
+
+				if(randomness < 4) {
+					randomness++;
+					randomShips();
+				}
+			} else {
+				ship.css("top", shipTop+"px");
+				ship.css("left", shipLeft+"px");
+
+				setTimeout(shippingTime, 1, ship, speed*1.001, left, top);
+			}
+		};
+
+		randomShips = function() {
+			if($("#landing .ship").length < 5) {
+				if(Math.random() > .5) {
+					setTimeout(shippingTime, Math.ceil(Math.random()*15000), false);
+				}
+
+				if(Math.random() > .5) {
+					setTimeout(shippingTime, Math.ceil(Math.random()*30000), false);
+				}
+
+				if(Math.random() > .5) {
+					setTimeout(shippingTime, Math.ceil(Math.random()*45000), false);
+				}
+
+				setTimeout(randomShips, 60000);
+			}
+		}
+
+		shippingTime(false);
+
+		meepleTime = function(meeple, speed, left, top) {
+			windowWidth = $("#landing").width();
+			windowHeight = $("#landing").height();
+
+			if(!meeple) {
+				date = new Date();
+				left = Math.random() >= 0.5;
+				top = Math.random() >= 0.5;
+				speed = 0.2;
+				meeple = $("#landing .meeple-suit:eq(0)").clone().removeAttr("id");
+				meepleWidth = parseInt($("#landing .meeple-suit:eq(0)").width());
+				meepleHeight = parseInt($("#landing .meeple-suit:eq(0)").height());
+				meeple.css("width", meepleWidth+"px").css("height", meepleHeight+"px");
+				meeple.insertAfter($("#landing .meeple-suit:eq(0)"));
+				meeple.data("milliseconds", date.getMilliseconds());
+
+				if(windowWidth > windowHeight) {
+					meeple.css("top", (top ? meepleHeight*-1 : windowHeight+meepleHeight)+"px");
+					meeple.css("left", ((left ? 0 : windowWidth)+Math.floor((Math.random()*windowWidth)-windowHeight))+"px");
+				} else {
+					meeple.css("top", ((top ? 0 : windowHeight)+Math.floor((Math.random()*windowHeight)-windowWidth))+"px");
+					meeple.css("left", (left ? meepleWidth*-1 : windowWidth+meepleWidth)+"px");
+				}
+			}
+
+			meeple.css("background-position", "-"+((!left ? (!top ? 1 : 3) : (!top ? 3 : 1))*meepleWidth)+"px -"+((!top ? 7 : 6)*meepleHeight)+"px");
+
+			meepleLeft = parseFloat(meeple.css("left"))+(left ? 2 : -2)*speed;
+			meepleTop = parseFloat(meeple.css("top"))+(top ? 1 : -1)*speed;
+			done = (left ? meepleLeft > windowWidth : (meepleLeft+meepleWidth) < 0) || (top ? meepleTop > windowHeight : (meepleTop+meepleHeight) < 0);
+
+			if(done) {
+				meeple.remove();
+			} else {
+				meeple.css("top", meepleTop+"px");
+				meeple.css("left", meepleLeft+"px");
+
+				date = new Date();
+
+				if(Math.abs(date.getMilliseconds()-meeple.data("milliseconds")) >= 500) {
+					meeple.data("milliseconds", date.getMilliseconds());
+
+					if(meepleTop > (0+meepleHeight) && (meepleTop+meepleHeight) < windowHeight && meepleLeft > (0+meepleWidth*4) && (meepleLeft+meepleWidth*4) < windowWidth && Math.random() >= 0.5) {
+						left = !left;
+					}
+				}
+
+				setTimeout(meepleTime, 1, meeple, speed*1.0001, left, top);
+			}
+		};
+
+		meepleTime(false);
+		setInterval(function(){if(Math.random() >= 0.5){ meepleTime(false); }}, 30000);
+
+		var lFollowX = 0,
+			lFollowY = 0,
+			moveX = 0,
+			moveY = 0,
+			friction = 1 / 30;
+
+		function moveBackground() {
+			moveX += (lFollowX - moveX) * friction;
+			moveY += (lFollowY - moveY) * friction;
+
+			translate = "translate(" + moveX + "px, " + moveY + "px) scale(1.1)";
+
+			$("#stars").css({
+				"-webit-transform": translate,
+				"-moz-transform": translate,
+				"transform": translate
+			});
+
+			window.requestAnimationFrame(moveBackground);
+		}
+
+		$(window).on("mousemove click", function(e) {
+			var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+			var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+			lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
+			lFollowY = (10 * lMouseY) / 100;
+		});
+
+		moveBackground();
+
+		lazyLoad = function(e) {
+			$(e).find("img").attr("src", $(e).find("img").data("src"));
+		};
+
+		var slidespeed = 1000;
+		window.sr = ScrollReveal();
+		sr.reveal('.ship-1', { origin: 'bottom', duration: slidespeed});
+		sr.reveal('.ship-2', { origin: 'top', duration: slidespeed*2.5});
+		sr.reveal('.ship-3', { origin: 'center', duration: slidespeed*5});
+		sr.reveal('.meeple-demo', { origin: 'bottom', duration: slidespeed*2, beforeReveal: lazyLoad });
+
+		$("#landing .hero-foot .button").on("click", function(){
+			meepleTime(false);
+			return true;
+		})
+
+		$(".tile-trailer").on("click", function(){
+			if(youtubeParser($(this).attr("href"))) {
+				$(".modal").addClass("is-active").find(".modal-content").html('<iframe width="640" height="360" src="//www.youtube.com/embed/'+youtubeParser($(this).attr("href"))+'?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+				return false;
+			} else {
+				return true;
+			}
+		});
+
+		$(".tile-screenshot").on("click", function(){
+			img = $(this).find("img").clone().click(function(){
+				img = $(this);
+				next = false;
+
+				$(".tile-screenshot").each(function(){
+					if(next) {
+						img.attr("src", $(this).attr("href"));
+						next = false;
+					} else if($(this).attr("href") == img.attr("src")) {
+						next = true;
+					}
+				});
+
+				if(next) {
+					img.attr("src", $(".tile-screenshot:eq(0)").attr("href"));
+				}
+			});
+			$(".modal").addClass("is-active").find(".modal-content").html(img.addClass("modal-image").attr("src", $(this).attr("href")));
+			return false;
+		});
+
+		$(".pricing-plan").on("click", function(){
+			$(".pricing-plan.is-active").removeClass("is-active").removeClass("is-dark");
+			$(this).addClass("is-active").addClass("is-dark");
+		});
+
+		Itch.getGameData({
+    		user: "voxgames",
+    		game: "meeple-station",
+			onComplete: function(data){
+				$(".pricing-plan").each(function(){
+					reward = $(this).data("reward");
+
+					if(!reward) {
+						if(data.sale) {
+							$(".plan-price-amount .price", this).css("text-decoration", "line-through").text(parseFloat(data.original_price.replace("$", ""))).after(parseFloat(data.price.replace("$", "")));
+							$(".plan-header:not(.plan-image)", this).append("<br><span class=\"subtitle is-size-6 has-text-grey-light\">(on sale)</span>");
+						} else {
+							$(".plan-price-amount .price", this).text(parseFloat(data.price.replace("$", "")));
+							$(".plan-header:not(.plan-image)", this).append("<br><span class=\"subtitle is-size-6 has-text-grey-light\">(unlimited)</span>");
+						}
+					} else {
+						for(key in data.rewards) {
+							if(parseInt(data.rewards[key].id) == parseInt(reward)) {
+								$(".plan-price-amount .price", this).text(parseFloat(data.rewards[key].price.replace("$", "")));
+								$(".plan-header:not(.plan-image)", this).html(data.rewards[key].title+"<br><span class=\"subtitle is-size-6 has-text-grey-light\">("+data.rewards[key].amount_remaining+" left of "+data.rewards[key].amount+")</span>");
+
+								if(data.rewards[key].amount_remaining == 0 || !data.rewards[key].available) {
+									$(".plan-footer .button", this).attr("disabled", true).text("Sold Out");
+								}
+							}
+						}
+					}
+				});
+			}
+		});
+
+		$(".pricing-plan").on("click", ".button", function(){
+			$(this).closest(".pricing-plan").click();
+			newwindow = window.open("https://voxgames.itch.io/meeple-station/purchase?popup=1"+($(this).closest(".pricing-plan").data("reward") ? "&reward_id="+$(this).closest(".pricing-plan").data("reward") : ""),"Buy Meeple Station","height=400,width=650");
+			if(window.focus){
+				newwindow.focus();
+			}
+			return false;
+		});
+
+		$(".meeple-served").on("click", function(){
+			meepleTime(false);
+			$(".meeples-served").html(parseInt($(".meeples-served").text())+1);
+		});
+
+		$(".modal").on("click", ".modal-close,.modal-background", function(){
+			$(".modal.is-active").removeClass("is-active");
+			$(".modal img,.modal iframe").remove();
+			return false;
+		});
+
+		$(document).keyup(function(e) {
+			if(e.keyCode === 27) {
+				$(".modal.is-active").removeClass("is-active");
+				$(".modal img,.modal iframe").remove();
+			}
+		});
+	});
+
+	youtubeParser = function(url) {
+			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+			var match = url.match(regExp);
+			return (match&&match[7].length==11)? match[7] : false;
+	};
+	</script>
+</body>
+</html>
