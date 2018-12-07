@@ -8,7 +8,7 @@ Want to build a sprawling, multi levelled station that caters to your Meeple’s
 ## Survive pirates and meteors
 Remember kids, failure is fun. When something goes wrong, it goes REALLY wrong in Meeple Station. Your officer could decide that the airlock isn’t necessary and deconstruct it, wiping out half your station, only for a stray meteor to hit your solar array, powering down your life support while everyone is snoring away in bed. Trade any of the myriad of goods you scrounge up. Become a mining station, strip mine entire quadrants and sell the runoff to a trading faction nearby but be wary of pirates and face eating space-squids.
 
-![Pirates!](https://i.gjcdn.net/data/games/6/188/375188/media/game-description/pirateboarding-ntfchask.gif)
+![Pirates](https://i.gjcdn.net/data/games/6/188/375188/media/game-description/pirateboarding-ntfchask.gif)
 
 ## Explore the galaxy and research new tech
 Explore the galaxy in search of new resources to sell and people to meet. Go anywhere you please so long as you have enough fuel and an engine! Do you want to focus on engineering? Defence and security? Refining? Set up a research lab and hope for the best! Officers can unlock new tech, but they can be a difficult (cantankerous) bunch to appease, and if you let them, they can and will run your station into the ground! Good luck captain.
