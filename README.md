@@ -15,4 +15,4 @@ Explore the galaxy in search of new resources to sell and people to meet. Go any
 
 <img src="https://steamcdn-a.akamaihd.net/steam/apps/900010/extras/chemist.gif?t=1543992839" alt="Meeple Station"/>
 
-# [Wishlist on Steam](https://store.steampowered.com/app/900010/Meeple_Station/) | [Visit our homepage](https://meeplestation.com)
+[Wishlist on Steam](https://store.steampowered.com/app/900010/Meeple_Station/) | [Visit our homepage](https://meeplestation.com)
