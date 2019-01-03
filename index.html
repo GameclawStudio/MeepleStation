@@ -720,7 +720,7 @@
 							$(".plan-header:not(.plan-image)", this).append("<br><span class=\"subtitle is-size-6 has-text-grey-light\">(on sale)</span>");
 						} else {
 							$(".plan-price-amount .price", this).text(parseFloat(data.price.replace("$", "")));
-							$(".plan-header:not(.plan-image)", this).append("<br><span class=\"subtitle is-size-6 has-text-grey-light\">(unlimited)</span>");
+							$(".plan-header:not(.plan-image)", this).append("<br><span class=\"subtitle is-size-6 has-text-grey-light\">(limited time only)</span>");
 						}
 					} else {
 						for(key in data.rewards) {
